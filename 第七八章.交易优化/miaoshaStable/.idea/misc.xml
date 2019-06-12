@@ -5,8 +5,8 @@
     <option name="formatter" value="ECLIPSE" />
     <option name="id" value="1462106432417" />
     <option name="name" value="default" />
-    <option name="pathToConfigFileJava" value="$USER_HOME$/Documents/alipay.xml" />
-    <option name="selectedJavaProfile" value="Alipay Convention" />
+    <option name="pathToConfigFileJava" value="$USER_HOME$/Downloads/p3c-master/p3c-formatter/eclipse-codestyle.xml" />
+    <option name="selectedJavaProfile" value="P3C-CodeStyle" />
     <option name="useOldEclipseJavaFormatter" value="true" />
   </component>
   <component name="EntryPointsManager">

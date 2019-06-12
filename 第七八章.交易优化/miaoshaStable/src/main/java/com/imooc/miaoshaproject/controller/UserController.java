@@ -133,7 +133,7 @@ public class UserController  extends BaseController{
 
 
     //用户登陆接口
-    @RequestMapping(value = "/login",method = {RequestMethod.POST},consumes={CONTENT_TYPE_FORMED})
+    @RequestMapping(value = "/login",method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType login(@RequestParam(name="telphone")String telphone,
                                   @RequestParam(name="password")String password) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -151,17 +151,17 @@ public class UserController  extends BaseController{
         //修改成若用户登录验证成功后将对应的登录信息和登录凭证一起存入redis中
 
         //生成登录凭证token，UUID
-        String uuidToken = UUID.randomUUID().toString();
-        uuidToken = uuidToken.replace("-","");
-        //建议token和用户登陆态之间的联系
-        redisTemplate.opsForValue().set(uuidToken,userModel);
-        redisTemplate.expire(uuidToken,1, TimeUnit.HOURS);
+//        String uuidToken = UUID.randomUUID().toString();
+//        uuidToken = uuidToken.replace("-","");
+//        //建议token和用户登陆态之间的联系
+//        redisTemplate.opsForValue().set(uuidToken,userModel);
+//        redisTemplate.expire(uuidToken,1, TimeUnit.HOURS);
 
-//        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
-//        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
 
         //下发了token
-        return CommonReturnType.create(uuidToken);
+        return CommonReturnType.create(null);
     }
 
 

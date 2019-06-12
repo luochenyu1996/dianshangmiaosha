@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.imooc.miaoshaproject.service.ItemService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created by hzllb on 2018/11/18.
  */
@@ -70,6 +73,10 @@ public class ItemController extends BaseController {
         return CommonReturnType.create(null);
 
     }
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
     //商品详情页浏览
     @RequestMapping(value = "/get",method = {RequestMethod.GET})
     @ResponseBody
@@ -100,6 +107,7 @@ public class ItemController extends BaseController {
         return CommonReturnType.create(itemVO);
 
     }
+
 
     //商品列表页面浏览
     @RequestMapping(value = "/list",method = {RequestMethod.GET})
