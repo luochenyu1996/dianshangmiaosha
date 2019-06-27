@@ -132,10 +132,9 @@ public class OrderController extends BaseController {
                                         @RequestParam(name="promoId",required = false)Integer promoId,
                                         @RequestParam(name="promoToken",required = false)String promoToken) throws BusinessException {
 
-        if(orderCreateRateLimiter.acquire() <= 0){
+        if(!orderCreateRateLimiter.tryAcquire()){
             throw new BusinessException(EmBusinessError.RATELIMIT);
         }
-
 
         String token = httpServletRequest.getParameterMap().get("token")[0];
         if(StringUtils.isEmpty(token)){
