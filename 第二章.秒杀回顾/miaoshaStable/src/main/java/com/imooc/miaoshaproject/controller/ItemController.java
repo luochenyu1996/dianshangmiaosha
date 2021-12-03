@@ -27,7 +27,10 @@ public class ItemController extends BaseController {
     @Autowired
     private ItemService itemService;
 
-    //创建商品的controller
+    /**
+     * 创建商品
+     *
+     */
     @RequestMapping(value = "/create",method = {RequestMethod.POST},consumes={CONTENT_TYPE_FORMED})
     @ResponseBody
     public CommonReturnType createItem(@RequestParam(name = "title")String title,
@@ -50,6 +53,10 @@ public class ItemController extends BaseController {
     }
 
     //商品详情页浏览
+    /**
+     * 获取商品详情
+     *
+     */
     @RequestMapping(value = "/get",method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType getItem(@RequestParam(name = "id")Integer id){
@@ -62,6 +69,10 @@ public class ItemController extends BaseController {
     }
 
     //商品列表页面浏览
+    /**
+     * 获取商品列表
+     *
+     */
     @RequestMapping(value = "/list",method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType listItem(){

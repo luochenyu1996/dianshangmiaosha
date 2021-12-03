@@ -93,6 +93,10 @@ public class ItemServiceImpl implements ItemService {
         return itemModelList;
     }
 
+    /**
+     * 暂时还没有使用redis
+     *
+     */
     @Override
     public ItemModel getItemById(Integer id) {
         ItemDO itemDO = itemDOMapper.selectByPrimaryKey(id);

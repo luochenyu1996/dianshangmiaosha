@@ -49,10 +49,18 @@ public class OrderServiceImpl implements OrderService {
     private StockLogDOMapper stockLogDOMapper;
 
 
+
+    /**
+     * @Transactional 保证创建订单是在同一个事务中
+     *
+     */
     @Override
     @Transactional
     public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount,String stockLogId) throws BusinessException {
+
         //1.校验下单状态,下单的商品是否存在，用户是否合法，购买数量是否正确
+        //下单前先做校验
+
         //ItemModel itemModel = itemService.getItemById(itemId);
         ItemModel itemModel = itemService.getItemByIdInCache(itemId);
         if(itemModel == null){
@@ -64,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
 //        if(userModel == null){
 //            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户信息不存在");
 //        }
+        // 用户下单数量的限制
         if(amount <= 0 || amount > 99){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"数量信息不正确");
         }
@@ -80,6 +89,7 @@ public class OrderServiceImpl implements OrderService {
 //        }
 
         //2.落单减库存
+        //要进行锁库存 只要能够落单  则进行减去库存  而不是其他减库存的逻辑
         boolean result = itemService.decreaseStock(itemId,amount);
         if(!result){
             throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);

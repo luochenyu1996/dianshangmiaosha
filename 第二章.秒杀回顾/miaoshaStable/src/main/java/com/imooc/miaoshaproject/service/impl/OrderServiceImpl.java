@@ -99,8 +99,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+
+    /**
+     *  订单号有16位
+     *  中间6位为自增序列
+     *  最后2位为分库分表位,暂时写死  保证能分库分表成 成100库100 张表中
+     *
+     *  事务保证了 ID 的唯一性
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private String generateOrderNo(){
+    public String generateOrderNo(){
         //订单号有16位
         StringBuilder stringBuilder = new StringBuilder();
         //前8位为时间信息，年月日

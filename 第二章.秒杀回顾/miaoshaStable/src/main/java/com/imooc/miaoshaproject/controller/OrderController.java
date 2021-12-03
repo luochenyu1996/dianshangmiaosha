@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by hzllb on 2018/11/18.
+ * 下单 Controller
+ *
  */
 @Controller("order")
 @RequestMapping("/order")
@@ -22,6 +23,8 @@ public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
 
+
+    //视频中解释了这个类为什么这么用
     @Autowired
     private HttpServletRequest httpServletRequest;
 
@@ -36,12 +39,9 @@ public class OrderController extends BaseController {
         if(isLogin == null || !isLogin.booleanValue()){
             throw new BusinessException(EmBusinessError.USER_NOT_LOGIN,"用户还未登陆，不能下单");
         }
-
         //获取用户的登陆信息
         UserModel userModel = (UserModel)httpServletRequest.getSession().getAttribute("LOGIN_USER");
-
         OrderModel orderModel = orderService.createOrder(userModel.getId(),itemId,promoId,amount);
-
         return CommonReturnType.create(null);
     }
 }

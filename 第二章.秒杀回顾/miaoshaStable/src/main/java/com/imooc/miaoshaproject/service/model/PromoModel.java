@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * 秒杀营销模型
+ *
  * Created by hzllb on 2018/11/18.
  */
 public class PromoModel {

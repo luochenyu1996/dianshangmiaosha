@@ -23,7 +23,10 @@ public interface ItemService {
     ItemModel getItemByIdInCache(Integer id);
 
     //库存扣减
+    //落单减库存的实现
     boolean decreaseStock(Integer itemId,Integer amount)throws BusinessException;
+
+
     //库存回补
     boolean increaseStock(Integer itemId,Integer amount)throws BusinessException;
 

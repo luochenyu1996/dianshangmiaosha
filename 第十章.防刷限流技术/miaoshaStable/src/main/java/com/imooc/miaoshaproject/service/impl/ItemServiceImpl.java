@@ -146,6 +146,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
 
+    /**
+     * @Transactional 减库存 保证事务的一致性
+     *
+     */
 
     @Override
     @Transactional

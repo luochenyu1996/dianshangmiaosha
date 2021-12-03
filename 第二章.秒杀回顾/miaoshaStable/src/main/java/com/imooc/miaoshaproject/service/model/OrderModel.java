@@ -7,6 +7,8 @@ import java.math.BigDecimal;
  */
 //用户下单的交易模型
 public class OrderModel {
+
+    //这个订单号有一定的生成规则  因此在数据库中不作主键和递增
     //2018102100012828
     private String id;
 
