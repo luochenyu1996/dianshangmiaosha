@@ -58,6 +58,13 @@ public class ItemServiceImpl implements ItemService {
         return itemStockDO;
     }
 
+
+    /**
+     * 创建商品
+     *
+     * 使用了事务
+     *
+     */
     @Override
     @Transactional
     public ItemModel createItem(ItemModel itemModel) throws BusinessException {
@@ -66,21 +73,19 @@ public class ItemServiceImpl implements ItemService {
         if(result.isHasErrors()){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
         }
-
         //转化itemmodel->dataobject
         ItemDO itemDO = this.convertItemDOFromItemModel(itemModel);
 
         //写入数据库
         itemDOMapper.insertSelective(itemDO);
         itemModel.setId(itemDO.getId());
-
         ItemStockDO itemStockDO = this.convertItemStockDOFromItemModel(itemModel);
-
         itemStockDOMapper.insertSelective(itemStockDO);
-
         //返回创建完成的对象
         return this.getItemById(itemModel.getId());
     }
+
+
 
     @Override
     public List<ItemModel> listItem() {
@@ -103,14 +108,14 @@ public class ItemServiceImpl implements ItemService {
         if(itemDO == null){
             return null;
         }
-        //操作获得库存数量
+        //操作获得库存数量  库存表单独出来了
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
 
 
         //将dataobject->model
         ItemModel itemModel = convertModelFromDataObject(itemDO,itemStockDO);
 
-        //获取活动商品信息
+        //获取活动商品信息  如果该商品有活动 则要把该商品的活动信息封装在商品信息中进行返回
         PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
         if(promoModel != null && promoModel.getStatus().intValue() != 3){
             itemModel.setPromoModel(promoModel);

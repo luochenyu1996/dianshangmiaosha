@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import com.imooc.miaoshaproject.service.ItemService;
 
 /**
- * Created by hzllb on 2018/11/18.
+ * 商品信息 接口
  */
-@Controller("/item")
+@RestController("/item")
 @RequestMapping("/item")
 @CrossOrigin(origins = {"*"},allowCredentials = "true")
 public class ItemController extends BaseController {
@@ -28,11 +28,12 @@ public class ItemController extends BaseController {
     private ItemService itemService;
 
     /**
-     * 创建商品
+     * 增加商品
+     * done
+     * todo 增加登录校验逻辑
      *
      */
-    @RequestMapping(value = "/create",method = {RequestMethod.POST},consumes={CONTENT_TYPE_FORMED})
-    @ResponseBody
+    @PostMapping(value = "/create",consumes={CONTENT_TYPE_FORMED})
     public CommonReturnType createItem(@RequestParam(name = "title")String title,
                                        @RequestParam(name = "description")String description,
                                        @RequestParam(name = "price")BigDecimal price,
@@ -45,39 +46,39 @@ public class ItemController extends BaseController {
         itemModel.setPrice(price);
         itemModel.setStock(stock);
         itemModel.setImgUrl(imgUrl);
-
         ItemModel itemModelForReturn = itemService.createItem(itemModel);
         ItemVO itemVO = convertVOFromModel(itemModelForReturn);
 
         return CommonReturnType.create(itemVO);
     }
 
-    //商品详情页浏览
+
     /**
-     * 获取商品详情
+     * 根据商品ID获取商品信息
+     * 如果有活动信息那么相应的活动信息也会被封装返回
+     * done
+     *
+     * todo 校验登录逻辑
      *
      */
-    @RequestMapping(value = "/get",method = {RequestMethod.GET})
-    @ResponseBody
+    @GetMapping(value = "/get")
     public CommonReturnType getItem(@RequestParam(name = "id")Integer id){
         ItemModel itemModel = itemService.getItemById(id);
-
+        //转换对象
         ItemVO itemVO = convertVOFromModel(itemModel);
-
         return CommonReturnType.create(itemVO);
-
     }
 
-    //商品列表页面浏览
+
     /**
      * 获取商品列表
      *
+     * todo  登录逻辑校验
+     *
      */
-    @RequestMapping(value = "/list",method = {RequestMethod.GET})
-    @ResponseBody
+    @GetMapping(value = "/list")
     public CommonReturnType listItem(){
         List<ItemModel> itemModelList = itemService.listItem();
-
         //使用stream apiJ将list内的itemModel转化为ITEMVO;
         List<ItemVO> itemVOList =  itemModelList.stream().map(itemModel -> {
             ItemVO itemVO = this.convertVOFromModel(itemModel);
@@ -88,6 +89,10 @@ public class ItemController extends BaseController {
 
 
 
+    /**
+     * 对象转换
+     *
+     */
     private ItemVO convertVOFromModel(ItemModel itemModel){
         if(itemModel == null){
             return null;
